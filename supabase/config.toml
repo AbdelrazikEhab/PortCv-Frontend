@@ -1,0 +1,7 @@
+project_id = "wwzpypekgdtsmnvrvxgy"
+
+[functions.parse-resume]
+verify_jwt = true
+
+[functions.check-ats-score]
+verify_jwt = true
