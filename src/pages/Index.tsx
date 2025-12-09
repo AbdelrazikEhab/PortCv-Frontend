@@ -16,63 +16,66 @@ import {
   Palette,
   Download
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const features = [
     {
       icon: <FileText className="w-8 h-8" />,
-      title: "ATS-Friendly Templates",
-      description: "Professionally designed resume templates that pass applicant tracking systems with flying colors.",
+      title: t("Feature_ATS_Title"),
+      description: t("Feature_ATS_Desc"),
       gradient: "from-purple-500 to-indigo-500"
     },
     {
       icon: <Globe className="w-8 h-8" />,
-      title: "Personal Portfolio URL",
-      description: "Get your own yourname.portcv.com subdomain to showcase your work professionally.",
+      title: t("Feature_URL_Title"),
+      description: t("Feature_URL_Desc"),
       gradient: "from-cyan-500 to-blue-500"
     },
     {
       icon: <Layout className="w-8 h-8" />,
-      title: "Multiple Resumes",
-      description: "Create and manage multiple resume versions tailored for different job applications.",
+      title: t("Feature_Multiple_Title"),
+      description: t("Feature_Multiple_Desc"),
       gradient: "from-pink-500 to-rose-500"
     },
     {
       icon: <Sparkles className="w-8 h-8" />,
-      title: "AI-Powered Parsing",
-      description: "Upload your existing resume or LinkedIn PDF and let AI extract all your details instantly.",
+      title: t("Feature_AI_Title"),
+      description: t("Feature_AI_Desc"),
       gradient: "from-amber-500 to-orange-500"
     },
     {
       icon: <Palette className="w-8 h-8" />,
-      title: "Full Customization",
-      description: "Choose colors, fonts, layouts, and animations to make your portfolio truly yours.",
+      title: t("Feature_Custom_Title"),
+      description: t("Feature_Custom_Desc"),
       gradient: "from-emerald-500 to-teal-500"
     },
     {
       icon: <Download className="w-8 h-8" />,
-      title: "Export to PDF",
-      description: "Download your perfectly formatted resume as a PDF ready to submit to employers.",
+      title: t("Feature_PDF_Title"),
+      description: t("Feature_PDF_Desc"),
       gradient: "from-violet-500 to-purple-500"
     }
   ];
 
   const benefits = [
-    "No credit card required to start",
-    "Takes less than 5 minutes to set up",
-    "Real-time preview as you edit",
-    "SEO-optimized portfolio pages",
-    "Analytics to track profile views",
-    "Mobile-responsive designs"
+    t("Benefit_NoCard"),
+    t("Benefit_FastSetup"),
+    t("Benefit_RealTime"),
+    t("Benefit_SEO"),
+    t("Benefit_Analytics"),
+    t("Benefit_Mobile")
   ];
 
   const stats = [
-    { value: "10K+", label: "Resumes Created" },
-    { value: "95%", label: "ATS Pass Rate" },
-    { value: "50+", label: "Templates" },
-    { value: "4.9/5", label: "User Rating" }
+    { value: "10K+", label: t("Stat_Resumes_Label") },
+    { value: "95%", label: t("Stat_ATS_Pass_Label") },
+    { value: "50+", label: t("Stat_Templates_Label") },
+    { value: "4.9/5", label: t("Stat_Rating_Label") }
   ];
 
   return (
@@ -94,12 +97,13 @@ const Index = () => {
             </span>
           </div>
           <div className="flex items-center gap-4">
+            <LanguageSwitcher />
             <Button variant="ghost" onClick={() => navigate("/auth")} className="hidden sm:flex">
-              Sign In
+              {t("Sign In")}
             </Button>
             <Button onClick={() => navigate("/auth")} className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
               <Sparkles className="w-4 h-4 mr-2" />
-              Get Started Free
+              {t("Get Started Free")}
             </Button>
           </div>
         </div>
@@ -110,20 +114,19 @@ const Index = () => {
         <div className="text-center max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary mb-8">
             <Zap className="w-4 h-4" />
-            <span className="text-sm font-medium">AI-Powered Resume & Portfolio Builder</span>
+            <span className="text-sm font-medium">{t("AI_Powered_Tag")}</span>
           </div>
 
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 leading-tight">
             <span className="bg-gradient-to-r from-primary via-purple-400 to-accent bg-clip-text text-transparent">
-              Build Your
+              {t("Build Your")}
             </span>
             <br />
-            <span className="text-foreground">Professional Portfolio</span>
+            <span className="text-foreground">{t("Professional Portfolio")}</span>
           </h1>
 
           <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
-            Create stunning ATS-friendly resumes and showcase your work with a personalized portfolio website.
-            <span className="text-foreground font-medium"> Stand out. Get hired.</span>
+            {t("Standard_Description")}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
@@ -133,7 +136,7 @@ const Index = () => {
               onClick={() => navigate("/auth")}
             >
               <Sparkles className="w-5 h-5 mr-2" />
-              Get Started Free
+              {t("Get Started Free")}
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
             <Button
@@ -143,7 +146,7 @@ const Index = () => {
               onClick={() => navigate("/auth")}
             >
               <LogIn className="w-5 h-5 mr-2" />
-              Sign In
+              {t("Sign In")}
             </Button>
           </div>
 
@@ -165,10 +168,10 @@ const Index = () => {
       <section className="relative z-10 container max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Everything You Need to <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Land Your Dream Job</span>
+            {t("Features_Title_Pre")} <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{t("Features_Title_Highlight")}</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Powerful features designed to help you create professional resumes and portfolios that get results.
+            {t("Features_Subtitle")}
           </p>
         </div>
 
@@ -199,10 +202,10 @@ const Index = () => {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="text-3xl md:text-5xl font-bold mb-8">
-              Why Choose <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">PortCV?</span>
+              {t("Why_Choose_Title")} <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{t("Why_Choose_PortCV")}</span>
             </h2>
             <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
-              We've helped thousands of professionals create impressive portfolios and land their dream jobs. Here's what makes us different.
+              {t("Why_Choose_Desc")}
             </p>
 
             <div className="grid sm:grid-cols-2 gap-4">
@@ -212,47 +215,6 @@ const Index = () => {
                   <span className="text-foreground">{benefit}</span>
                 </div>
               ))}
-            </div>
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl" />
-            <div className="relative bg-card/80 backdrop-blur-xl border border-border/50 rounded-3xl p-8 shadow-2xl">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                  <Users className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-lg">Trusted by Professionals</h4>
-                  <p className="text-sm text-muted-foreground">Join thousands of successful users</p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="p-4 rounded-xl bg-background/50 border border-border/30">
-                  <div className="flex items-center gap-2 mb-2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-muted-foreground italic">
-                    "PortCV helped me land interviews at top tech companies. The ATS-friendly templates are a game changer!"
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-2">— Software Engineer at Google</p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-background/50 border border-border/30">
-                  <div className="flex items-center gap-2 mb-2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-muted-foreground italic">
-                    "The portfolio feature is amazing. I got my first client just days after sharing my PortCV link!"
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-2">— Freelance Designer</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -266,10 +228,10 @@ const Index = () => {
 
           <div className="relative px-8 py-16 md:py-24 text-center">
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-              Ready to Build Your Professional Presence?
+              {t("Ready_Title")}
             </h2>
             <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-              Join thousands of professionals who have transformed their careers with PortCV. Start for free today.
+              {t("Ready_Desc")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -278,7 +240,7 @@ const Index = () => {
                 onClick={() => navigate("/auth")}
               >
                 <UserPlus className="w-5 h-5 mr-2" />
-                Create Free Account
+                {t("Create_Free_Account")}
               </Button>
               <Button
                 size="lg"
@@ -286,7 +248,7 @@ const Index = () => {
                 className="text-lg px-10 py-7 border-2 border-white/30 text-white hover:bg-white/10 transition-all"
                 onClick={() => navigate("/auth")}
               >
-                Learn More
+                {t("Learn_More")}
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </div>
@@ -305,12 +267,12 @@ const Index = () => {
               </span>
             </div>
             <p className="text-muted-foreground text-sm">
-              © {new Date().getFullYear()} PortCV. All rights reserved.
+              © {new Date().getFullYear()} PortCV. {t("Rights_Reserved")}
             </p>
             <div className="flex items-center gap-6">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">Privacy</a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">Terms</a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">Contact</a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">{t("Privacy")}</a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">{t("Terms")}</a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">{t("Contact_Us")}</a>
             </div>
           </div>
         </div>

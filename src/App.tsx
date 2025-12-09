@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/toaster";
+import "@/lib/i18n";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -33,15 +34,45 @@ const App = () => {
   // Check if we're accessing via subdomain
   const isSubdomain = () => {
     const hostname = window.location.hostname;
-    const parts = hostname.split('.');
 
-    // If subdomain exists and it's not 'www' or localhost
-    if (parts.length >= 3 && parts[0] !== 'www') {
-      return true;
+    // Define main domains that should ALWAYS show the landing page (not a user portfolio)
+    const mainDomains = [
+      'localhost',
+      '127.0.0.1',
+      'port-cv-frontend.vercel.app', // Vercel Production
+      'www.port-cv-frontend.vercel.app',
+      'port-cv.com',                 // Custom Domain (Future proofing)
+      'www.port-cv.com'
+    ];
+
+    // If exact match with a main domain, it's NOT a subdomain
+    if (mainDomains.includes(hostname)) {
+      return false;
     }
 
-    // Also check localhost with subdomain for testing (e.g., user.localhost:8080)
-    if (hostname.includes('localhost') && parts.length > 1 && parts[0] !== 'localhost') {
+    const parts = hostname.split('.');
+
+    // Handle localhost subdomains (e.g. user.localhost)
+    // We already checked exact 'localhost' above.
+    if (hostname.includes('localhost')) {
+      return parts.length > 1 && parts[0] !== 'www';
+    }
+
+    // Handle Vercel deployments and potential custom domains
+    // e.g. user.port-cv-frontend.vercel.app (4 parts) OR user.port-cv.com (3 parts)
+
+    // If it has 3 or more parts, and start isn't www, assume it's a subdomain
+    // UNLESS it matches the Vercel pattern "project.vercel.app" which is 3 parts but is a main domain.
+    // However, we explicitly whitelisted 'port-cv-frontend.vercel.app' above.
+    // So any OTHER *.vercel.app might be considered a subdomain if we supported that.
+
+    // Correct logic for general internet domains:
+    // standard: domain.com (2 parts) -> Main
+    // www.domain.com (3 parts) -> Main
+    // sub.domain.com (3 parts) -> Subdomain
+
+    // Since we filtered out the known "Roots" above, we can assume:
+    if (parts.length >= 3 && parts[0] !== 'www') {
       return true;
     }
 
