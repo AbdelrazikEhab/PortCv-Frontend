@@ -237,6 +237,7 @@ const Auth = () => {
                     onChange={(e) => setFullName(e.target.value)}
                     className="pl-12 py-6 bg-muted/50 border-border/50 focus:border-primary focus:ring-primary transition-all"
                     required={!isLogin}
+                    autoComplete="name"
                   />
                 </div>
               </div>
@@ -257,6 +258,7 @@ const Auth = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-12 py-6 bg-muted/50 border-border/50 focus:border-primary focus:ring-primary transition-all"
                   required
+                  autoComplete="email"
                 />
               </div>
             </div>
@@ -276,6 +278,7 @@ const Auth = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-12 pr-12 py-6 bg-muted/50 border-border/50 focus:border-primary focus:ring-primary transition-all"
                   required
+                  autoComplete={isLogin ? "current-password" : "new-password"}
                 />
                 <button
                   type="button"
