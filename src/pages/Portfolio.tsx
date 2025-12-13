@@ -38,21 +38,30 @@ const Portfolio = () => {
 
   // Detect username from subdomain or URL parameter
   const getUsername = () => {
-    // Check if accessing via subdomain (e.g., username.myhost.com)
     const hostname = window.location.hostname;
-    const parts = hostname.split('.');
 
-    // If subdomain exists and it's not 'www' or 'localhost', use it as username
-    if (parts.length >= 3 && parts[0] !== 'www') {
-      return parts[0];
+    // Ignore Vercel preview URLs
+    if (hostname.endsWith('.vercel.app')) {
+      return urlUsername;
     }
 
-    // Handle localhost subdomain (e.g. abdelrazik.localhost)
+    // Ignore IPs
+    if (/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/.test(hostname)) {
+      return urlUsername;
+    }
+
+    const parts = hostname.split('.');
+
+    // Handle localhost subdomain
     if (hostname.includes('localhost') && parts.length === 2 && parts[0] !== 'localhost') {
       return parts[0];
     }
 
-    // Otherwise use URL parameter
+    // Handle Custom Domains
+    if (parts.length >= 3 && parts[0] !== 'www') {
+      return parts[0];
+    }
+
     return urlUsername;
   };
 

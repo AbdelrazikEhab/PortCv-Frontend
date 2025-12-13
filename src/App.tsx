@@ -50,28 +50,30 @@ const App = () => {
       return false;
     }
 
+    // Ignore Vercel preview URLs (anything ending in .vercel.app)
+    // We assume ONLY custom domains support subdomains for now, OR we have a specific wildcard list.
+    // If we want to support actual subdomains on vercel (e.g. user.project.vercel.app), we need to be more specific.
+    // But generally, for this app, any *.vercel.app is likely a deployment preview -> Main App
+    if (hostname.endsWith('.vercel.app')) {
+      return false;
+    }
+
+    // Ignore IP addresses (e.g. 192.168.1.1)
+    if (/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/.test(hostname)) {
+      return false;
+    }
+
     const parts = hostname.split('.');
 
     // Handle localhost subdomains (e.g. user.localhost)
-    // We already checked exact 'localhost' above.
     if (hostname.includes('localhost')) {
       return parts.length > 1 && parts[0] !== 'www';
     }
 
-    // Handle Vercel deployments and potential custom domains
-    // e.g. user.port-cv-frontend.vercel.app (4 parts) OR user.port-cv.com (3 parts)
-
-    // If it has 3 or more parts, and start isn't www, assume it's a subdomain
-    // UNLESS it matches the Vercel pattern "project.vercel.app" which is 3 parts but is a main domain.
-    // However, we explicitly whitelisted 'port-cv-frontend.vercel.app' above.
-    // So any OTHER *.vercel.app might be considered a subdomain if we supported that.
-
-    // Correct logic for general internet domains:
+    // Handle Custom Domains (e.g. user.port-cv.com)
     // standard: domain.com (2 parts) -> Main
     // www.domain.com (3 parts) -> Main
     // sub.domain.com (3 parts) -> Subdomain
-
-    // Since we filtered out the known "Roots" above, we can assume:
     if (parts.length >= 3 && parts[0] !== 'www') {
       return true;
     }
