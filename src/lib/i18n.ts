@@ -201,13 +201,15 @@ const resources = {
             "Skills_Develop": "مهارات للتطوير",
             "Actionable_Advice": "نصائح عملية",
             "Priority": "أولوية"
-        };
+        }
+    }
+};
 
-        i18n
+i18n
     .use(LanguageDetector)
-            .use(initReactI18next)
-            .init({
-                resources,
+    .use(initReactI18next)
+    .init({
+        resources,
                 lng: "en", // Default language
                 fallbackLng: "en",
                 interpolation: {
