@@ -87,6 +87,17 @@ const resources = {
             "Fix_With_AI": "Fix with AI",
             "Fixing": "Fixing...",
 
+            // Section Manager
+            "Manage_Sections": "Manage Sections",
+            "Manage_Sections_Desc": "Toggle sections to show/hide them in your resume",
+            "Section_Summary": "Professional Summary",
+            "Section_Experience": "Work Experience",
+            "Section_Education": "Education",
+            "Section_Skills": "Technical Skills",
+            "Section_SoftSkills": "Soft Skills",
+            "Section_Projects": "Projects",
+            "Section_Languages": "Languages",
+
             // Develop Skills
             "Career_Analysis_Title": "Career Analysis & Guidance",
             "Career_Analysis_Desc": "Get AI-powered insights on your strengths, areas to improve, and personalized career development path.",
@@ -186,6 +197,17 @@ const resources = {
             "Fix_With_AI": "تحسين بالذكاء الاصطناعي",
             "Fixing": "جاري التحسين...",
 
+            // Section Manager
+            "Manage_Sections": "إدارة الأقسام",
+            "Manage_Sections_Desc": "تحكم في إظهار أو إخفاء أقسام سيرتك الذاتية",
+            "Section_Summary": "الملخص المهني",
+            "Section_Experience": "الخبرات العملية",
+            "Section_Education": "التعليم",
+            "Section_Skills": "المهارات التقنية",
+            "Section_SoftSkills": "المهارات الشخصية",
+            "Section_Projects": "المشاريع",
+            "Section_Languages": "اللغات",
+
             // Develop Skills
             "Career_Analysis_Title": "التحليل والتوجيه المهني",
             "Career_Analysis_Desc": "احصل على رؤى مدعومة بالذكاء الاصطناعي حول نقاط قوتك والمجالات التي تحتاج إلى تحسين ومسار التطوير المهني المخصص.",
@@ -210,15 +232,15 @@ i18n
     .use(initReactI18next)
     .init({
         resources,
-                lng: "en", // Default language
-                fallbackLng: "en",
-                interpolation: {
-                    escapeValue: false
-                },
-                detection: {
-                    order: ['localStorage', 'navigator'],
-                    caches: ['localStorage'],
-                }
-            });
+        lng: "en", // Default language
+        fallbackLng: "en",
+        interpolation: {
+            escapeValue: false
+        },
+        detection: {
+            order: ['localStorage', 'navigator'],
+            caches: ['localStorage'],
+        }
+    });
 
-        export default i18n;
+export default i18n;
