@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -62,6 +63,7 @@ export default function DevelopSkill() {
     const navigate = useNavigate();
     const { user } = useAuth();
     const { toast } = useToast();
+    const { t, i18n } = useTranslation();
 
     const [resumes, setResumes] = useState<Resume[]>([]);
     const [selectedResumeId, setSelectedResumeId] = useState<string>("");
@@ -98,7 +100,8 @@ export default function DevelopSkill() {
         try {
             const selectedResume = resumes.find(r => r.id === selectedResumeId);
             const { data } = await api.post('/ai/career-analysis', {
-                resume: selectedResume?.data
+                resume: selectedResume?.data,
+                language: i18n.language
             });
 
             if (data.success) {

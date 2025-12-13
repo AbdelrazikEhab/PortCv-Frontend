@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -27,12 +28,14 @@ import { ProfessionalTemplate } from "@/components/resume-templates/Professional
 import { MinimalTemplate } from "@/components/resume-templates/MinimalTemplate";
 import { ResumeData } from "@/types/resume";
 import { initialResumeData } from "@/data/resumeData";
+import { ParsingOverlay } from "@/components/ui/ParsingOverlay";
 
 export default function EditResume() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { user, loading: authLoading } = useAuth();
 
+  const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [resumeName, setResumeName] = useState("");
   const [formData, setFormData] = useState<ResumeData>(initialResumeData);
@@ -80,7 +83,7 @@ export default function EditResume() {
         resumeData.education = [resumeData.education];
       }
 
-      setFormData(resumeData as unknown as ResumeData);
+      setFormData({ ...initialResumeData, ...resumeData } as unknown as ResumeData);
       setSelectedTemplate(data.template);
       setSelectedColorScheme(data.colorScheme || "traditional");
     } catch (error) {
@@ -124,7 +127,10 @@ export default function EditResume() {
   const handleCheckAtsScore = async () => {
     setCheckingAts(true);
     try {
-      const { data } = await api.post('/ai/ats-score', { resume: formData });
+      const { data } = await api.post('/ai/ats-score', {
+        resume: formData,
+        language: i18n.language
+      });
       setAtsScore(data);
       setShowAtsScore(true);
       toast({
@@ -150,7 +156,8 @@ export default function EditResume() {
     try {
       const { data } = await api.post('/ai/fix-resume', {
         resume: formData,
-        atsFeedback: atsScore
+        atsFeedback: atsScore,
+        language: i18n.language
       });
 
       if (data.success && data.data) {
@@ -399,6 +406,7 @@ export default function EditResume() {
 
   return (
     <div className="min-h-screen bg-background">
+      <ParsingOverlay isVisible={isUploading} />
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border/50 backdrop-blur-xl bg-background/80">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">

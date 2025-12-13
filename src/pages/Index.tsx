@@ -268,6 +268,9 @@ const Index = () => {
             </div>
             <p className="text-muted-foreground text-sm">
               © {new Date().getFullYear()} PortCV. {t("Rights_Reserved")}
+              <span className="ml-2 text-xs opacity-50">
+                v{__APP_VERSION__} {__COMMIT_HASH__ && `(${__COMMIT_HASH__})`}
+              </span>
             </p>
             <div className="flex items-center gap-6">
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">{t("Privacy")}</a>

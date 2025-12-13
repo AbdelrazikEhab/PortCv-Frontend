@@ -153,6 +153,10 @@ const MasterDashboard = () => {
                         </CardContent>
                     </Card>
                 </div>
+                {/* Version Footer */}
+                <div className="text-center text-xs text-muted-foreground mt-8">
+                    v{__APP_VERSION__} {__COMMIT_HASH__ && `(${__COMMIT_HASH__})`}
+                </div>
             </div>
         </div>
     );

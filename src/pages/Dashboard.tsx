@@ -35,6 +35,7 @@ import { InterviewPrep } from "@/components/ai/InterviewPrep";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ResumeUploader } from "@/components/resume/ResumeUploader";
 import { PricingModal } from "@/components/payment/PricingModal";
+import { initialResumeData } from "@/data/resumeData";
 
 interface Resume {
   id: string;
@@ -114,7 +115,7 @@ const Dashboard = () => {
       const { data } = await api.post('/resumes', {
         name: newResumeName,
         template: 'classic',
-        data: {}
+        data: initialResumeData
       });
 
       setResumes([data, ...resumes]);

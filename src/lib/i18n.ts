@@ -70,6 +70,38 @@ const resources = {
             "Privacy": "Privacy",
             "Terms": "Terms",
             "Contact_Us": "Contact",
+
+            // Edit Resume
+            "Resume_Editor_Title": "Resume Editor",
+            "Back_To_Dashboard": "Dashboard",
+            "Edit_Portfolio": "Edit Portfolio",
+            "Develop_Skills": "Develop Skills",
+            "ATS_Score_Button": "ATS Score",
+            "Analyzing": "Analyzing...",
+            "Upload": "Upload",
+            "Parsing": "Parsing...",
+            "Save": "Save",
+            "Saving": "Saving...",
+            "PDF_Button": "PDF",
+            "Generating": "Generating...",
+            "Fix_With_AI": "Fix with AI",
+            "Fixing": "Fixing...",
+
+            // Develop Skills
+            "Career_Analysis_Title": "Career Analysis & Guidance",
+            "Career_Analysis_Desc": "Get AI-powered insights on your strengths, areas to improve, and personalized career development path.",
+            "Analyze_Your_Career": "Analyze Your Career",
+            "Analyze_Career_Desc": "Select a resume to get personalized career insights and development recommendations",
+            "Select_Resume": "Select Resume",
+            "Choose_Resume": "Choose a resume",
+            "Analyze_Career_Button": "Analyze Career",
+            "Your_Strengths": "Your Strengths",
+            "Areas_Improve": "Areas to Improve",
+            "Red_Flags": "Red Flags & Mistakes",
+            "Career_Path": "Your Career Path",
+            "Skills_Develop": "Skills to Develop",
+            "Actionable_Advice": "Actionable Advice",
+            "Priority": "priority"
         }
     },
     ar: {
@@ -137,24 +169,54 @@ const resources = {
             "Privacy": "الخصوصية",
             "Terms": "الشروط",
             "Contact_Us": "اتصل بنا",
-        }
-    }
-};
 
-i18n
+            // Edit Resume
+            "Resume_Editor_Title": "محرر السيرة الذاتية",
+            "Back_To_Dashboard": "لوحة التحكم",
+            "Edit_Portfolio": "تعديل المحفظة",
+            "Develop_Skills": "تطوير المهارات",
+            "ATS_Score_Button": "تقييم ATS",
+            "Analyzing": "جاري التحليل...",
+            "Upload": "رفع ملف",
+            "Parsing": "جاري المعالجة...",
+            "Save": "حفظ",
+            "Saving": "جاري الحفظ...",
+            "PDF_Button": "PDF",
+            "Generating": "جاري التوليد...",
+            "Fix_With_AI": "تحسين بالذكاء الاصطناعي",
+            "Fixing": "جاري التحسين...",
+
+            // Develop Skills
+            "Career_Analysis_Title": "التحليل والتوجيه المهني",
+            "Career_Analysis_Desc": "احصل على رؤى مدعومة بالذكاء الاصطناعي حول نقاط قوتك والمجالات التي تحتاج إلى تحسين ومسار التطوير المهني المخصص.",
+            "Analyze_Your_Career": "حلل مسارك المهني",
+            "Analyze_Career_Desc": "اختر سيرة ذاتية للحصول على رؤى مهنية مخصصة وتوصيات بالتطوير",
+            "Select_Resume": "اختر السيرة الذاتية",
+            "Choose_Resume": "اختر سيرة ذاتية",
+            "Analyze_Career_Button": "تحليل المسار المهني",
+            "Your_Strengths": "نقاط قوتك",
+            "Areas_Improve": "مجالات للتحسين",
+            "Red_Flags": "أخطاء وتنبيهات",
+            "Career_Path": "مسارك المهني",
+            "Skills_Develop": "مهارات للتطوير",
+            "Actionable_Advice": "نصائح عملية",
+            "Priority": "أولوية"
+        };
+
+        i18n
     .use(LanguageDetector)
-    .use(initReactI18next)
-    .init({
-        resources,
-        lng: "ar", // Default language
-        fallbackLng: "en",
-        interpolation: {
-            escapeValue: false
-        },
-        detection: {
-            order: ['localStorage', 'navigator'],
-            caches: ['localStorage'],
-        }
-    });
+            .use(initReactI18next)
+            .init({
+                resources,
+                lng: "en", // Default language
+                fallbackLng: "en",
+                interpolation: {
+                    escapeValue: false
+                },
+                detection: {
+                    order: ['localStorage', 'navigator'],
+                    caches: ['localStorage'],
+                }
+            });
 
-export default i18n;
+        export default i18n;
