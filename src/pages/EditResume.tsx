@@ -29,6 +29,7 @@ import { MinimalTemplate } from "@/components/resume-templates/MinimalTemplate";
 import { ResumeData } from "@/types/resume";
 import { initialResumeData } from "@/data/resumeData";
 import { ParsingOverlay } from "@/components/ui/ParsingOverlay";
+import { ResponseLanguageSelector } from "@/components/ui/ResponseLanguageSelector";
 
 export default function EditResume() {
   const navigate = useNavigate();
@@ -58,6 +59,12 @@ export default function EditResume() {
     languages: true,
   });
   const [isFixing, setIsFixing] = useState(false);
+  const [aiResponseLang, setAiResponseLang] = useState(i18n.language);
+
+  // Sync with UI language initially or on change
+  useEffect(() => {
+    setAiResponseLang(i18n.language);
+  }, [i18n.language]);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -129,7 +136,7 @@ export default function EditResume() {
     try {
       const { data } = await api.post('/ai/ats-score', {
         resume: formData,
-        language: i18n.language
+        language: aiResponseLang
       });
       setAtsScore(data);
       setShowAtsScore(true);
@@ -157,7 +164,7 @@ export default function EditResume() {
       const { data } = await api.post('/ai/fix-resume', {
         resume: formData,
         atsFeedback: atsScore,
-        language: i18n.language
+        language: aiResponseLang
       });
 
       if (data.success && data.data) {
@@ -498,247 +505,203 @@ export default function EditResume() {
               className="gap-2 border-accent/50 text-accent hover:bg-accent hover:text-accent-foreground"
             >
               <Download className="w-4 h-4" />
-              const [aiResponseLang, setAiResponseLang] = useState(i18n.language);
+              <span className="hidden sm:inline">PDF</span>
+            </Button>
 
-  // Sync with UI language initially or on change
-  useEffect(() => {
-                setAiResponseLang(i18n.language);
-  }, [i18n.language]);
-
-  // ...
-
-  const handleCheckAtsScore = async () => {
-                setCheckingAts(true);
-              try {
-      const {data} = await api.post('/ai/ats-score', {
-                resume: formData,
-              language: aiResponseLang 
-      });
-      // ...
-    }
-    // ...
-  };
-
-  const handleFixResume = async () => {
-    // ...
-    try {
-      const {data} = await api.post('/ai/fix-resume', {
-                resume: formData,
-              atsFeedback: atsScore,
-              language: aiResponseLang
-      });
-      // ...
-    }
-    // ...
-  };
-
-              // ... inside return (Header area)
-              <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="container flex h-14 items-center gap-4">
-                  <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")}>
-                    <ArrowLeft className="w-4 h-4" />
-                  </Button>
-                  <div className="flex items-center gap-2 mr-auto">
-                    <h1 className="font-semibold">{t('Resume_Editor_Title')}</h1>
-                    <span className="text-muted-foreground hidden sm:inline-block">/ {resumeName}</span>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <ResponseLanguageSelector
-                      value={aiResponseLang}
-                      onValueChange={setAiResponseLang}
-                    />
-                    <Button
-                      variant="outline"
-                      size="sm"
-            // ...
+            <ResponseLanguageSelector
+              value={aiResponseLang}
+              onValueChange={setAiResponseLang}
+            />
+          </div>
+        </div>
+      </header>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        {/* Edit Form with Tabs */}
-                        <div className="bg-card/50 p-6 rounded-2xl border border-border/50">
-                          <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-6">{resumeName}</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Edit Form with Tabs */}
+          <div className="bg-card/50 p-6 rounded-2xl border border-border/50">
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-6">{resumeName}</h2>
 
-                          {/* Template & Color Selection */}
-                          <div className="space-y-6 mb-6">
-                            <TemplateSelector
-                              selectedTemplate={selectedTemplate}
-                              onSelectTemplate={setSelectedTemplate}
-                            />
+            {/* Template & Color Selection */}
+            <div className="space-y-6 mb-6">
+              <TemplateSelector
+                selectedTemplate={selectedTemplate}
+                onSelectTemplate={setSelectedTemplate}
+              />
 
 
-                            <ColorSchemeSelector
-                              selectedColorScheme={selectedColorScheme}
-                              onSelectColorScheme={setSelectedColorScheme}
-                            />
+              <ColorSchemeSelector
+                selectedColorScheme={selectedColorScheme}
+                onSelectColorScheme={setSelectedColorScheme}
+              />
 
-                            <SectionManager
-                              sections={visibleSections}
-                              onToggleSection={handleToggleSection}
-                            />
-                          </div>
+              <SectionManager
+                sections={visibleSections}
+                onToggleSection={handleToggleSection}
+              />
+            </div>
 
-                          <Tabs defaultValue="contact" className="w-full">
-                            <TabsList className="grid w-full grid-cols-4 mb-6">
-                              <TabsTrigger value="contact">Contact</TabsTrigger>
-                              <TabsTrigger value="experience">Work</TabsTrigger>
-                              <TabsTrigger value="skills">Skills</TabsTrigger>
-                              <TabsTrigger value="other">Other</TabsTrigger>
-                            </TabsList>
+            <Tabs defaultValue="contact" className="w-full">
+              <TabsList className="grid w-full grid-cols-4 mb-6">
+                <TabsTrigger value="contact">Contact</TabsTrigger>
+                <TabsTrigger value="experience">Work</TabsTrigger>
+                <TabsTrigger value="skills">Skills</TabsTrigger>
+                <TabsTrigger value="other">Other</TabsTrigger>
+              </TabsList>
 
-                            <TabsContent value="contact" className="space-y-6">
-                              <ContactForm
-                                contact={formData.contact}
-                                onChange={(contact) => setFormData({ ...formData, contact })}
-                              />
-                              {visibleSections.summary && (
-                                <SummaryForm
-                                  summary={formData.summary}
-                                  onChange={(summary) => setFormData({ ...formData, summary })}
-                                />
-                              )}
-                            </TabsContent>
+              <TabsContent value="contact" className="space-y-6">
+                <ContactForm
+                  contact={formData.contact}
+                  onChange={(contact) => setFormData({ ...formData, contact })}
+                />
+                {visibleSections.summary && (
+                  <SummaryForm
+                    summary={formData.summary}
+                    onChange={(summary) => setFormData({ ...formData, summary })}
+                  />
+                )}
+              </TabsContent>
 
-                            <TabsContent value="experience" className="space-y-6">
-                              {visibleSections.experience && (
-                                <ExperienceForm
-                                  experiences={formData.experience}
-                                  onChange={(experience) => setFormData({ ...formData, experience })}
-                                />
-                              )}
-                            </TabsContent>
+              <TabsContent value="experience" className="space-y-6">
+                {visibleSections.experience && (
+                  <ExperienceForm
+                    experiences={formData.experience}
+                    onChange={(experience) => setFormData({ ...formData, experience })}
+                  />
+                )}
+              </TabsContent>
 
-                            <TabsContent value="skills" className="space-y-6">
-                              {visibleSections.skills && (
-                                <SkillsForm
-                                  skills={formData.skills}
-                                  onChange={(skills) => setFormData({ ...formData, skills })}
-                                />
-                              )}
-                              {visibleSections.softSkills && (
-                                <SoftSkillsForm
-                                  softSkills={formData.softSkills}
-                                  onChange={(softSkills) => setFormData({ ...formData, softSkills })}
-                                />
-                              )}
-                            </TabsContent>
+              <TabsContent value="skills" className="space-y-6">
+                {visibleSections.skills && (
+                  <SkillsForm
+                    skills={formData.skills}
+                    onChange={(skills) => setFormData({ ...formData, skills })}
+                  />
+                )}
+                {visibleSections.softSkills && (
+                  <SoftSkillsForm
+                    softSkills={formData.softSkills}
+                    onChange={(softSkills) => setFormData({ ...formData, softSkills })}
+                  />
+                )}
+              </TabsContent>
 
-                            <TabsContent value="other" className="space-y-6">
-                              {visibleSections.projects && (
-                                <ProjectsForm
-                                  projects={formData.projects}
-                                  onChange={(projects) => setFormData({ ...formData, projects })}
-                                />
-                              )}
-                              {visibleSections.education && (
-                                <EducationForm
-                                  education={formData.education}
-                                  onChange={(education) => setFormData({ ...formData, education })}
-                                />
-                              )}
-                              {visibleSections.languages && (
-                                <LanguagesForm
-                                  languages={formData.languages}
-                                  onChange={(languages) => setFormData({ ...formData, languages })}
-                                />
-                              )}
-                            </TabsContent>
-                          </Tabs>
-                        </div>
+              <TabsContent value="other" className="space-y-6">
+                {visibleSections.projects && (
+                  <ProjectsForm
+                    projects={formData.projects}
+                    onChange={(projects) => setFormData({ ...formData, projects })}
+                  />
+                )}
+                {visibleSections.education && (
+                  <EducationForm
+                    education={formData.education}
+                    onChange={(education) => setFormData({ ...formData, education })}
+                  />
+                )}
+                {visibleSections.languages && (
+                  <LanguagesForm
+                    languages={formData.languages}
+                    onChange={(languages) => setFormData({ ...formData, languages })}
+                  />
+                )}
+              </TabsContent>
+            </Tabs>
+          </div>
 
-                        {/* PDF Preview */}
-                        <div className="bg-card p-6 rounded-2xl border border-border overflow-auto max-h-[800px] sticky top-8">
-                          <h2 className="text-2xl font-bold gradient-text mb-4">PDF Preview</h2>
-                          <div id="pdf-content">{renderTemplate()}</div>
-                        </div>
-                      </div>
-                    </div>
+          {/* PDF Preview */}
+          <div className="bg-card p-6 rounded-2xl border border-border overflow-auto max-h-[800px] sticky top-8">
+            <h2 className="text-2xl font-bold gradient-text mb-4">PDF Preview</h2>
+            <div id="pdf-content">{renderTemplate()}</div>
+          </div>
+        </div>
+      </div>
 
-                    {/* ATS Score Dialog */}
-                    {showAtsScore && atsScore && (
-                      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                        <div className="bg-card rounded-2xl border border-border max-w-2xl w-full max-h-[80vh] overflow-auto p-6">
-                          <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-2xl font-bold gradient-text">ATS Score Analysis</h2>
-                            <Button variant="ghost" onClick={() => setShowAtsScore(false)}>✕</Button>
-                          </div>
+      {/* ATS Score Dialog */}
+      {showAtsScore && atsScore && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-card rounded-2xl border border-border max-w-2xl w-full max-h-[80vh] overflow-auto p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold gradient-text">ATS Score Analysis</h2>
+              <Button variant="ghost" onClick={() => setShowAtsScore(false)}>✕</Button>
+            </div>
 
-                          <div className="space-y-6">
-                            <div className="text-center">
-                              <div className="text-6xl font-bold gradient-text mb-2">{atsScore.score}</div>
-                              <div className="text-muted-foreground">out of 100</div>
-                            </div>
+            <div className="space-y-6">
+              <div className="text-center">
+                <div className="text-6xl font-bold gradient-text mb-2">{atsScore.score}</div>
+                <div className="text-muted-foreground">out of 100</div>
+              </div>
 
-                            <div className="bg-muted/50 p-4 rounded-lg">
-                              <h3 className="font-semibold mb-2">Summary</h3>
-                              <p className="text-sm text-muted-foreground">{atsScore.summary}</p>
-                            </div>
+              <div className="bg-muted/50 p-4 rounded-lg">
+                <h3 className="font-semibold mb-2">Summary</h3>
+                <p className="text-sm text-muted-foreground">{atsScore.summary}</p>
+              </div>
 
-                            {atsScore.strengths && atsScore.strengths.length > 0 && (
-                              <div>
-                                <h3 className="font-semibold mb-3 text-green-500">✓ Strengths</h3>
-                                <ul className="space-y-2">
-                                  {atsScore.strengths.map((strength: string, idx: number) => (
-                                    <li key={idx} className="text-sm flex items-start gap-2">
-                                      <span className="text-green-500 mt-0.5">•</span>
-                                      <span>{strength}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
+              {atsScore.strengths && atsScore.strengths.length > 0 && (
+                <div>
+                  <h3 className="font-semibold mb-3 text-green-500">✓ Strengths</h3>
+                  <ul className="space-y-2">
+                    {atsScore.strengths.map((strength: string, idx: number) => (
+                      <li key={idx} className="text-sm flex items-start gap-2">
+                        <span className="text-green-500 mt-0.5">•</span>
+                        <span>{strength}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
-                            {atsScore.improvements && atsScore.improvements.length > 0 && (
-                              <div>
-                                <h3 className="font-semibold mb-3 text-yellow-500">⚠ Areas to Improve</h3>
-                                <ul className="space-y-2">
-                                  {atsScore.improvements.map((improvement: string, idx: number) => (
-                                    <li key={idx} className="text-sm flex items-start gap-2">
-                                      <span className="text-yellow-500 mt-0.5">•</span>
-                                      <span>{improvement}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
+              {atsScore.improvements && atsScore.improvements.length > 0 && (
+                <div>
+                  <h3 className="font-semibold mb-3 text-yellow-500">⚠ Areas to Improve</h3>
+                  <ul className="space-y-2">
+                    {atsScore.improvements.map((improvement: string, idx: number) => (
+                      <li key={idx} className="text-sm flex items-start gap-2">
+                        <span className="text-yellow-500 mt-0.5">•</span>
+                        <span>{improvement}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
-                            {atsScore.keywords && atsScore.keywords.length > 0 && (
-                              <div>
-                                <h3 className="font-semibold mb-3">🔑 Missing Keywords</h3>
-                                <div className="flex flex-wrap gap-2">
-                                  {atsScore.keywords.map((keyword: string, idx: number) => (
-                                    <span key={idx} className="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm">
-                                      {keyword}
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-
-                            <div className="flex justify-end gap-3 pt-4 border-t border-border">
-                              <Button variant="outline" onClick={() => setShowAtsScore(false)}>Close</Button>
-                              <Button
-                                onClick={handleFixResume}
-                                disabled={isFixing}
-                                className="bg-gradient-to-r from-primary to-purple-600"
-                              >
-                                {isFixing ? (
-                                  <>
-                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                                    Fixing...
-                                  </>
-                                ) : (
-                                  <>
-                                    <Sparkles className="w-4 h-4 mr-2" />
-                                    Fix with AI
-                                  </>
-                                )}
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+              {atsScore.keywords && atsScore.keywords.length > 0 && (
+                <div>
+                  <h3 className="font-semibold mb-3">🔑 Missing Keywords</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {atsScore.keywords.map((keyword: string, idx: number) => (
+                      <span key={idx} className="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm">
+                        {keyword}
+                      </span>
+                    ))}
                   </div>
-                  );
+                </div>
+              )}
+
+              <div className="flex justify-end gap-3 pt-4 border-t border-border">
+                <Button variant="outline" onClick={() => setShowAtsScore(false)}>Close</Button>
+                <Button
+                  onClick={handleFixResume}
+                  disabled={isFixing}
+                  className="bg-gradient-to-r from-primary to-purple-600"
+                >
+                  {isFixing ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                      Fixing...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4 mr-2" />
+                      Fix with AI
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
