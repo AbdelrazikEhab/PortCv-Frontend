@@ -176,10 +176,19 @@ export default function EditPortfolio() {
           window.open(`${protocol}//${username}.portcv.com${port}`, '_blank');
         } else {
           const parts = rootDomain.split('.');
-          if (parts.length > 2) {
+
+          // Special handling for Vercel domains to preserve project name
+          // If we are at project.vercel.app (3 parts), treat it as a root domain
+          if (rootDomain.endsWith('.vercel.app') && parts.length === 3) {
+            window.open(`${protocol}//${username}.${rootDomain}${port}`, '_blank');
+          }
+          // If we are already on a subdomain (length > 2) AND not the special vercel case above (already handled)
+          // Actually, if we are on user.project.vercel.app (4 parts), we want to replace 'user'
+          else if (parts.length > 2 && !(rootDomain.endsWith('.vercel.app') && parts.length === 3)) {
             parts[0] = username;
             window.open(`${protocol}//${parts.join('.')}${port}`, '_blank');
           } else {
+            // Standard root domain (e.g. project.com)
             window.open(`${protocol}//${username}.${rootDomain}${port}`, '_blank');
           }
         }
