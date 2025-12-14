@@ -175,16 +175,14 @@ export default function EditPortfolio() {
         if (rootDomain.includes('portcv.com')) {
           window.open(`${protocol}//${username}.portcv.com${port}`, '_blank');
         } else {
-          const parts = rootDomain.split('.');
-
-          // Special handling for Vercel domains to preserve project name
-          // If we are at project.vercel.app (3 parts), treat it as a root domain
-          if (rootDomain.endsWith('.vercel.app') && parts.length === 3) {
-            window.open(`${protocol}//${username}.${rootDomain}${port}`, '_blank');
+          // Special handling for Vercel domains
+          // Vercel does NOT support wildcards on .vercel.app (e.g. user.project.vercel.app is invalid)
+          // We must use path-based routing for previews on Vercel default domains
+          if (rootDomain.endsWith('.vercel.app')) {
+            window.open(`${protocol}//${rootDomain}/portfolio/${username}`, '_blank');
           }
-          // If we are already on a subdomain (length > 2) AND not the special vercel case above (already handled)
-          // Actually, if we are on user.project.vercel.app (4 parts), we want to replace 'user'
-          else if (parts.length > 2 && !(rootDomain.endsWith('.vercel.app') && parts.length === 3)) {
+          // If we are already on a subdomain (length > 2)
+          else if (parts.length > 2) {
             parts[0] = username;
             window.open(`${protocol}//${parts.join('.')}${port}`, '_blank');
           } else {
