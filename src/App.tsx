@@ -54,12 +54,17 @@ const App = () => {
     // We assume ONLY custom domains support subdomains for now, OR we have a specific wildcard list.
     // If we want to support actual subdomains on vercel (e.g. user.project.vercel.app), we need to be more specific.
     // But generally, for this app, any *.vercel.app is likely a deployment preview -> Main App
-    if (hostname.endsWith('.vercel.app')) {
-      return false;
-    }
+    // if (hostname.endsWith('.vercel.app')) {
+    //   return false;
+    // }
 
     // Ignore IP addresses (e.g. 192.168.1.1)
     if (/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/.test(hostname)) {
+      return false;
+    }
+
+    // Ignore Vercel previews for this specific project (starts with project name)
+    if (hostname.startsWith('port-cv-frontend')) {
       return false;
     }
 

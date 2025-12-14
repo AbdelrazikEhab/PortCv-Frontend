@@ -10,20 +10,20 @@ interface HeroProps {
 export const Hero = ({ contact, profileImage }: HeroProps) => {
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-hero opacity-10"></div>
+      <div className="absolute inset-0 bg-gradient-hero opacity-10 animate-pulse"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.15),transparent_70%)]"></div>
 
       <div className="section-container text-center relative z-10">
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
           {profileImage && (
             <div className="flex justify-center mb-6">
-              <div className="relative">
+              <div className="relative group">
                 <img
                   src={profileImage}
                   alt={contact.name}
-                  className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-primary/30 shadow-xl"
+                  className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-primary/30 shadow-xl transition-transform duration-500 hover:scale-105"
                 />
-                <div className="absolute inset-0 rounded-full ring-4 ring-primary/20 ring-offset-4 ring-offset-background"></div>
+                <div className="absolute inset-0 rounded-full ring-4 ring-primary/20 ring-offset-4 ring-offset-background transition-all duration-500 group-hover:ring-primary/40"></div>
               </div>
             </div>
           )}

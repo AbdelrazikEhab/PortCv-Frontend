@@ -22,9 +22,9 @@ const Portfolio = () => {
   const [profileImage, setProfileImage] = useState<string>("");
   const [customLogo, setCustomLogo] = useState<string>("");
   const [colors, setColors] = useState({
-    primary: "#9b87f5",
-    accent: "#0EA5E9",
-    background: "#1A1F2C",
+    primary: "#D946EF",
+    accent: "#8B5CF6",
+    background: "#0f172a",
   });
   const [sections, setSections] = useState({
     summary: true,
@@ -41,12 +41,17 @@ const Portfolio = () => {
     const hostname = window.location.hostname;
 
     // Ignore Vercel preview URLs
-    if (hostname.endsWith('.vercel.app')) {
-      return urlUsername;
-    }
+    // if (hostname.endsWith('.vercel.app')) {
+    //   return urlUsername;
+    // }
 
     // Ignore IPs
     if (/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/.test(hostname)) {
+      return urlUsername;
+    }
+
+    // Ignore Vercel previews for this specific project
+    if (hostname.startsWith('port-cv-frontend')) {
       return urlUsername;
     }
 
