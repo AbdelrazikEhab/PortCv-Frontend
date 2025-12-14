@@ -27,6 +27,17 @@ export default defineConfig(({ mode }) => ({
     __COMMIT_HASH__: JSON.stringify(commitHash),
   },
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['@radix-ui/react-slot', '@radix-ui/react-label', 'class-variance-authority', 'clsx', 'tailwind-merge', 'lucide-react'],
+          utils: ['date-fns', 'axios', 'zod', 'react-hook-form', '@tanstack/react-query']
+        },
+      },
+    },
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

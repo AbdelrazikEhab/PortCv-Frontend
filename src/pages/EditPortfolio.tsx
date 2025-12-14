@@ -175,6 +175,8 @@ export default function EditPortfolio() {
         if (rootDomain.includes('portcv.com')) {
           window.open(`${protocol}//${username}.portcv.com${port}`, '_blank');
         } else {
+          const parts = rootDomain.split('.');
+
           // Special handling for Vercel domains
           // Vercel does NOT support wildcards on .vercel.app (e.g. user.project.vercel.app is invalid)
           // We must use path-based routing for previews on Vercel default domains

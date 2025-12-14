@@ -4,29 +4,33 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Suspense, lazy } from "react";
 import { ResumeProvider } from "@/contexts/ResumeContext";
 import { ResumeListProvider } from "@/contexts/ResumeListContext";
 import { AuthProvider } from "@/contexts/AuthContext";
-import Index from "./pages/Index";
-import Edit from "./pages/Edit";
-import Auth from "./pages/Auth";
-import Dashboard from "./pages/Dashboard";
-import Portfolio from "./pages/Portfolio";
-import ResumeList from "./pages/ResumeList";
-import EditResume from "./pages/EditResume";
-import EditPortfolio from "./pages/EditPortfolio";
-import PricingPage from "./pages/PricingPage";
-import SubscriptionSettings from "./pages/SubscriptionSettings";
-import MasterDashboard from "./pages/admin/MasterDashboard";
-import UserManagement from "./pages/admin/UserManagement";
-import SystemSettings from "./pages/admin/SystemSettings";
-import AdminLogin from "./pages/admin/AdminLogin";
-import ProjectManagement from "./pages/admin/ProjectManagement";
-import FeatureControl from "./pages/admin/FeatureControl";
-import DatabaseManagement from "./pages/admin/DatabaseManagement";
-import PaymentSettings from "./pages/admin/PaymentSettings";
-import DevelopSkill from "./pages/DevelopSkill";
-import NotFound from "./pages/NotFound";
+
+
+// Lazy load pages for performance
+const Index = lazy(() => import("./pages/Index"));
+const Edit = lazy(() => import("./pages/Edit"));
+const Auth = lazy(() => import("./pages/Auth"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Portfolio = lazy(() => import("./pages/Portfolio"));
+const ResumeList = lazy(() => import("./pages/ResumeList"));
+const EditResume = lazy(() => import("./pages/EditResume"));
+const EditPortfolio = lazy(() => import("./pages/EditPortfolio"));
+const PricingPage = lazy(() => import("./pages/PricingPage"));
+const SubscriptionSettings = lazy(() => import("./pages/SubscriptionSettings"));
+const MasterDashboard = lazy(() => import("./pages/admin/MasterDashboard"));
+const UserManagement = lazy(() => import("./pages/admin/UserManagement"));
+const SystemSettings = lazy(() => import("./pages/admin/SystemSettings"));
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
+const ProjectManagement = lazy(() => import("./pages/admin/ProjectManagement"));
+const FeatureControl = lazy(() => import("./pages/admin/FeatureControl"));
+const DatabaseManagement = lazy(() => import("./pages/admin/DatabaseManagement"));
+const PaymentSettings = lazy(() => import("./pages/admin/PaymentSettings"));
+const DevelopSkill = lazy(() => import("./pages/DevelopSkill"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -116,30 +120,35 @@ const App = () => {
               <TooltipProvider>
                 <Toaster />
                 <Sonner />
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/edit" element={<Edit />} />
-                  <Route path="/auth" element={<Auth />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/pricing" element={<PricingPage />} />
-                  <Route path="/subscription" element={<SubscriptionSettings />} />
-                  <Route path="/portfolio/:username" element={<Portfolio />} />
-                  <Route path="/resumes" element={<ResumeList />} />
-                  <Route path="/edit-resume/:id" element={<EditResume />} />
-                  <Route path="/edit-portfolio" element={<EditPortfolio />} />
-                  <Route path="/edit-portfolio" element={<EditPortfolio />} />
-                  <Route path="/admin" element={<MasterDashboard />} />
-                  <Route path="/admin/login" element={<AdminLogin />} />
-                  <Route path="/admin/users" element={<UserManagement />} />
-                  <Route path="/admin/settings" element={<SystemSettings />} />
-                  <Route path="/admin/projects" element={<ProjectManagement />} />
-                  <Route path="/admin/features" element={<FeatureControl />} />
-                  <Route path="/admin/database" element={<DatabaseManagement />} />
-                  <Route path="/admin/payments" element={<PaymentSettings />} />
-                  <Route path="/develop-skills" element={<DevelopSkill />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
+                <Suspense fallback={
+                  <div className="flex items-center justify-center min-h-screen">
+                    <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+                  </div>
+                }>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/edit" element={<Edit />} />
+                    <Route path="/auth" element={<Auth />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/pricing" element={<PricingPage />} />
+                    <Route path="/subscription" element={<SubscriptionSettings />} />
+                    <Route path="/portfolio/:username" element={<Portfolio />} />
+                    <Route path="/resumes" element={<ResumeList />} />
+                    <Route path="/edit-resume/:id" element={<EditResume />} />
+                    <Route path="/edit-portfolio" element={<EditPortfolio />} />
+                    <Route path="/admin" element={<MasterDashboard />} />
+                    <Route path="/admin/login" element={<AdminLogin />} />
+                    <Route path="/admin/users" element={<UserManagement />} />
+                    <Route path="/admin/settings" element={<SystemSettings />} />
+                    <Route path="/admin/projects" element={<ProjectManagement />} />
+                    <Route path="/admin/features" element={<FeatureControl />} />
+                    <Route path="/admin/database" element={<DatabaseManagement />} />
+                    <Route path="/admin/payments" element={<PaymentSettings />} />
+                    <Route path="/develop-skills" element={<DevelopSkill />} />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Suspense>
               </TooltipProvider>
             </ResumeListProvider>
           </ResumeProvider>
